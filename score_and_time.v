@@ -1,6 +1,6 @@
-module score_and_time(clock, reset, out, out10, scoreOut, score10Out, left, right, cur_state, correct);
-	input clock, reset, left, right;
-	input [1:0] cur_state;
+module score_and_time(clock, reset, out, out10, scoreOut, score10Out, correct);
+	input clock, reset;
+
 
 	output wire [6:0] out, out10, scoreOut, score10Out;
 
@@ -12,7 +12,7 @@ module score_and_time(clock, reset, out, out10, scoreOut, score10Out, left, righ
 //, .start(start), .finish(finish));
 
 	input correct;
-	score u_Score(.reset(reset), .button_left(left), .button_right(right), .score(score), .score10(score10), .right(correct), .clock(clock));
+	score u_Score(.reset(reset), .score(score), .score10(score10), .right(correct), .clock(clock));
 	//seven u_Seven(.count(count), .out(out));
 	//seven u_Seven2(.count(count10), .out(out10));
 	seven u_Seven3(.count(score), .out(scoreOut));

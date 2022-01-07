@@ -31,7 +31,7 @@ module DDfinal(
 	
 	assign correct = boss_cur_state == player_cur_state ? 1 : 0;
 	
-	boss b(clk, correct, row_count, boss_dot_col, boss_cur_state);
+	boss b(.clk(clk), .right(correct), .row_count(row_count), .dot_col(boss_dot_col), .cur_state(boss_cur_state), .reset(reset),.scoreout(score),.score10out(score10));
 	//print and correct to check weather the action is same 
 	player p(clk, left, right, row_count, player_dot_col, player_cur_state);
 	
@@ -53,5 +53,5 @@ module DDfinal(
 //	always@(correct)
 //	begin
 //	if(correct == 1) temp = 0;
-	score_and_time st(clk, reset, t, time10, score, score10, left, right, boss_cur_state, correct);
+//	score_and_time st(clk, reset, t, time10, score, score10,correct);
 endmodule

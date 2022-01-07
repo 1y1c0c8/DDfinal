@@ -1,8 +1,19 @@
-module boss(clk,right,row_count,dot_col, cur_state);
+module boss(clk,right,row_count,dot_col, cur_state, reset,scoreout, score10out);
     input clk;
     input right; //when player do same action as boss
 	 input [2:0] row_count;
     output reg[7:0] dot_col=0;
+	 input reset;
+	output [6:0] scoreout, score10out;
+
+
+	reg clk_div;
+	wire start, finish;
+
+	wire [3:0]  score_p, score10_p;
+	
+	
+	
 	 
 	 parameter [1:0] UP = 2'b11;  //雙手舉起
     parameter [1:0] DOWN = 2'b00; //雙手放下
@@ -14,9 +25,14 @@ module boss(clk,right,row_count,dot_col, cur_state);
     reg [1:0] next_state=RIGHTUP;
     
     reg[31:0] rightcount=0;
-    reg clk_div;
+    
 
-   
+   score u_Score(.reset(reset), .score(score_p), .score10(score10_p), .right(right), .clock(clk));
+	//seven_p u_Seven(.count(count), .out(out));
+	//seven_p u_Seven2(.count(count10), .out(out10));
+	seven_p u_Seven3(.count(score_p), .out(scoreout));
+	seven_p u_Seven4(.count(score10_p), .out(score10out));
+
 	 
 	
 	
@@ -71,9 +87,12 @@ module boss(clk,right,row_count,dot_col, cur_state);
             end
 		  end
         endcase
+		  
+		  
+		  
 	end
 	
-	always@(posedge clk) begin
+	always@(next_state) begin
 		cur_state <= next_state;
 	end
 	
@@ -128,4 +147,28 @@ module boss(clk,right,row_count,dot_col, cur_state);
             endcase
          end
 	end
+endmodule
+
+
+module seven_p (count, out);
+	input[3:0] count;
+	output reg [6:0] out;
+
+	always@(*)
+	begin
+	case(count)
+		0: out = 7'b1000000;
+		1: out = 7'b1111001;
+		2: out = 7'b0100100;
+		3: out = 7'b0110000;
+		4: out = 7'b0011001;
+		5: out = 7'b0010010;
+		6: out = 7'b0000010;
+		7: out = 7'b1111000;
+		8: out = 7'b0000000;
+		9: out = 7'b0010000;
+		default: out = 7'b000000;
+	endcase
+end
+
 endmodule

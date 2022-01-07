@@ -1,14 +1,14 @@
-module score(clock, reset, button_left, button_right, score, score10, right);
-	input button_left, button_right, reset, clock, right;
+module score(clock, reset, score, score10, right);
+	input reset, clock, right;
 	output reg[3:0] score, score10;
-	reg temp;
+	
 	
 	always@(/*posedge clock or */negedge reset or posedge right)
 	begin
 		if(!reset)
 		begin
 			score <= 4'd0;
-			score <= 4'd0;
+			score10 <= 4'd0;
 		end
 		else if(right)
 			begin
